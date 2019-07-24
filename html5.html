@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>document</title>
+		<style>
+			.edit{
+				width: 500px;
+				height: 300px;
+				background-color: ;
+				border: 5px solid red;
+			}
+			/*  两个框来回拖动  */
+			#div1,#div2{
+				width: 350px;
+				height: 70px;
+				padding: 10px;
+				border: 1px solid #aaa;
+			}
+			
+			
+			
+		</style>
+		<!-- 两个框来回拖动 -->
+		<script>
+			function allowDrop (ev){
+				ev.preventDefault();
+			}
+			function drag (ev){
+				ev.dataTransfer.setData("Text",ev.target.id);
+			}
+			function drop (ev){
+				ev.preventDefault();
+				var data = ev.dataTransfer.getData("Text");
+				ev.target.appendChild(document.getElementById(data));
+			}
+		</script>
+	</head>
+	<body>
+		<input type="text" autofocus="autofocus" placeholder="请输入用户名" />
+		
+		<input type="text" autofocus="autofocus" min="1" max="50" step="1" />
+		<hr>
+		<div class="edit" contenteditable="true">abc</div>
+		<hr>
+		<!-- 两个框来回拖动 -->
+		<p>拖动图片到矩形框中：</p>
+		<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+		<img src="img/logo.png" id="drag1" draggable="true" ondragstart="drag(event)" width="336" height="69">
+		<div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+		<!--     video       -->
+		<div style="text-align: center">
+			<button onclick="playPuse()">播放/暂停</button>
+			<button onclick="makeBig()">放大</button>
+			<button onclick="makeSmall()">缩小</button>
+			<button onclick="makeNormal()">普通</button>
+			<br>
+			<video width="420" id="video1">
+				<source src="video/girlgeneration.mp4" type="video/mp4"></source>
+				<source src="video/girlgeneration.ogv" type="video/ogg"></source>
+				<source src="video/girlgeneration.webm" type="video/webm"></source>
+				<object width="" height="" type="application/x-shockwave-flash" data="myvideo.swf">
+					<param name="movie" value="myvideo.swf" />
+					<param name="flashvars" value="autostart=true&amp;file=myvideo.swf" />
+				</object>
+				当前浏览器不支持 video直接播放，点击这里下载视频： <a href="myvideo.webm">下载视频</a>
+			</video>
+		</div>
+		<hr>
+		<div style="text-align: center">
+			<audio id="audio1" controls="">
+				<source src="../CSS3/mp3/NEXT TO YOU.mp3" type="audio/mp3">
+				当前浏览器不支持audio
+			</audio>
+		</div>
+		<hr>
+		<input type="number" name="number1" min="1" max="20" step="4" />
+		<script>
+			var myVideo = document.getElementById('video1');
+			function playPuse(){
+				if (myVideo.paused){
+					myVideo.play();
+				} else{
+					myVideo.pause();
+				}
+			}
+			function makeBig(){
+				myVideo.width = 560;
+			}
+			function makeSmall(){
+				myVideo.width = 320;
+			}
+			function makeNormal(){
+				myVideo.width = 420;
+			}
+		</script>
+	</body>
+</html>
+
