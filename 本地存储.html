@@ -80,15 +80,16 @@
 					for (i = 0; i < len; i++) {
 						key = localStorage.key(i);
 						obj = JSON.parse(localStorage.getItem(key));
-						// console.log(localStorage.getItem(key));
+						
 						trs.push(
 							'<tr>',
 								'<td>',obj.name,'</td>',
 								'<td>',obj.mobile,'</td>',
 								'<td>',obj.address,'</td>',
-								'<td><button ukey="',key,'" onclick="ContactList.onDelBtnClick(this)">删除</button><button ukey="',key,'" onclick="ContactList.onUpdateBtnClick(this)">修改</button></td>',
+								'<td><button ukey="', key, '" onclick="ContactList.onDelBtnClick(this)">删除</button><button ukey="', key, '" onclick="ContactList.onUpdateBtnClick(this)">修改</button></td>', 
 							'</tr>'
 						);
+						// console.log(localStorage.getItem(key));
 					}
 					tbody.innerHTML = trs.join('');
 					/* if(!name) return;
@@ -111,7 +112,7 @@
 					
 					//TOdo
 					
-					ContactList,currKey = key;
+					ContactList.currKey = key;
 					document.getElementById('saveBtn').innerHTML = '修改';
 					document.getElementById('name').value = obj.name;
 					
