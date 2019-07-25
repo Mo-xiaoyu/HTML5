@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>本地存储</title>
+	</head>
+	<body>
+		<!-- 通讯录 -->
+		<div class="wp">
+			<p>
+				<label>姓名：<input id="name" type="text"></label>
+			</p>
+			<p>
+				<label>电话：<input id="mobile" type="text"></label>
+			</p>
+			<p>
+				<label>地址：<input id="address" type="text"></label>
+			</p>
+			<p>
+				<button id="saveBtn" type="button">保存</button>
+			</p>
+		</div>
+		<hr>
+		<table border="1">
+			<thead>
+				<tr>
+					<th>姓名</th>
+					<th>电话</th>
+					<th>地址</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody id="tbody">
+				
+			</tbody>
+		</table>
+		<script>
+			var ContactList = {
+				currKey:undefined,
+				init: function(){
+					this.initEvt();
+					this.showList();
+				},
+				initEvt:function(){
+					document.getElementById('saveBtn').onclick = this.onSaveBtnClick;
+				},
+				onSaveBtnClick: function(){
+					var name = document.getElementById('name').value;
+					var mobile = document.getElementById('mobile').value;
+					var address = document.getElementById('address').value;
+					
+					
+					// var arr= [name,mobile,address];
+					var obj = {
+						name: name,
+						mobile: mobile,
+						address: address
+					};
+					if (ContactList.currKey) {
+						localStorage.setItem(ContactList.currKey,JSON.stringify(obj));
+						ContactList.currKey = undefined;
+						document.getElementById('saveBtn').innerHTML = '保存';
+					} else{
+						localStorage.setItem('name'+ new Date().getTime(),JSON.stringify(obj));
+
+					}
+					//check 检查数据
+					// localStorage.setItem('name'+ new Date().getTime(),name);
+					// localStorage.setItem('name'+ new Date().getTime(),JSON.stringify(obj));
+					ContactList.showList();
+				},
+				showList:function(){
+					// var name = localStorage.getItem('name');
+					var tbody = document.getElementById('tbody');
+					var len = localStorage.length;
+					var i;
+					var key;
+					var obj;
+					var trs = [];
+					for (i = 0; i < len; i++) {
+						key = localStorage.key(i);
+						obj = JSON.parse(localStorage.getItem(key));
+						// console.log(localStorage.getItem(key));
+						trs.push(
+							'<tr>',
+								'<td>',obj.name,'</td>',
+								'<td>',obj.mobile,'</td>',
+								'<td>',obj.address,'</td>',
+								'<td><button ukey="',key,'" onclick="ContactList.onDelBtnClick(this)">删除</button><button ukey="',key,'" onclick="ContactList.onUpdateBtnClick(this)">修改</button></td>',
+							'</tr>'
+						);
+					}
+					tbody.innerHTML = trs.join('');
+					/* if(!name) return;
+					tbody.innerHTML = 
+						'<tr>'+
+							'<td>'+name+'</td>'+
+						'</tr>'; */
+				},
+				onDelBtnClick:function(me){
+					var key = me.getAttribute('ukey');
+					// console.log(key)
+					if (confirm('确定要删除该联系人吗？')){
+						localStorage.removeItem(key);
+						ContactList.showList();
+					}
+				},
+				onUpdateBtnClick: function(me){
+					var key = me.getAttribute('ukey');
+					var obj = JSON.parse(localStorage.getItem(key));
+					
+					//TOdo
+					
+					ContactList,currKey = key;
+					document.getElementById('saveBtn').innerHTML = '修改';
+					document.getElementById('name').value = obj.name;
+					
+				}
+			};
+			ContactList.init();
+		</script>
+		
+		
+		
+		
+		
+		
+		<!-- 简单区分localStorage和sessionStorage -->
+		<!-- <div>该页面被访问了<span id="numspan">0</span>次</div> -->
+		<!-- <script type="text/javascript">
+			//简单区分localStorage和sessionStorage
+			// localStorage
+			// window.sessionStorage.setItem('num',1);
+			var numspan = document.getElementById('numspan')
+			var num = sessionStorage.getItem('num');
+			if (!num) {
+				num = 0;
+			} 
+			sessionStorage.setItem('num',++num);
+			numspan.innerHTML = num;
+			console.log(num);
+		</script> -->
+	</body>
+</html>
